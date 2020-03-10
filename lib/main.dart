@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/todo_home_page.dart';
-import 'package:todo_app/todo_item.dart';
 import 'package:todo_app/todo_item_widget.dart';
 import 'package:todo_app/todo_model.dart';
 
