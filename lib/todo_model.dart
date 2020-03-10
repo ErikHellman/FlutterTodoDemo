@@ -3,14 +3,13 @@ import 'package:todo_app/todo_item.dart';
 
 class TodoModel with ChangeNotifier {
   final List<TodoItem> _items = [];
-
-  List<TodoItem> get items => _items;
+  List<TodoItem> get items => List.unmodifiable(_items);
 
   void addOrUpdate(TodoItem item) {
     if (!_items.contains(item)) {
       _items.add(item);
     }
-    notifyListeners()
+    notifyListeners();
   }
 
   void remove(TodoItem item) {
