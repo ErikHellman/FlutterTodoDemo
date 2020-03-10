@@ -3,12 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/todo_item.dart';
 import 'package:todo_app/todo_model.dart';
 
-class TodoHomePage extends StatefulWidget {
+class TodoHome extends StatefulWidget {
   @override
-  _TodoHomePageState createState() => _TodoHomePageState();
+  _TodoHomeState createState() => _TodoHomeState();
 }
 
-class _TodoHomePageState extends State<TodoHomePage> {
+class _TodoHomeState extends State<TodoHome> {
   TodoModel _todoModel;
 
   @override
@@ -45,16 +45,11 @@ class _TodoHomePageState extends State<TodoHomePage> {
   }
 }
 
-class TodoListItem extends StatefulWidget {
+class TodoListItem extends StatelessWidget {
   final TodoItem item;
 
   TodoListItem(this.item);
 
-  @override
-  _TodoListItemState createState() => _TodoListItemState();
-}
-
-class _TodoListItemState extends State<TodoListItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -63,8 +58,8 @@ class _TodoListItemState extends State<TodoListItem> {
         width: double.infinity,
         child: GestureDetector(
           onTap: () {
-            print('Tap on ${widget.item}');
-            Navigator.pushNamed(context, '/details', arguments: widget.item);
+            print('Tap on $item');
+            Navigator.pushNamed(context, '/details', arguments: item);
           },
           child: Row(
             children: <Widget>[
@@ -73,12 +68,12 @@ class _TodoListItemState extends State<TodoListItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      widget.item.title,
+                      item.title,
                       style: Theme.of(context).textTheme.headline6,
                       textAlign: TextAlign.start,
                     ),
                     Text(
-                      widget.item.description,
+                      item.description,
                       style: Theme.of(context).textTheme.bodyText1,
                       textAlign: TextAlign.start,
                     ),
@@ -86,11 +81,11 @@ class _TodoListItemState extends State<TodoListItem> {
                 ),
               ),
               Checkbox(
-                  value: widget.item.done,
+                  value: item.done,
                   onChanged: (value) {
-                    widget.item.done = value;
+                    item.done = value;
                     Provider.of<TodoModel>(context, listen: false)
-                        .addOrUpdate(widget.item);
+                        .addOrUpdate(item);
                   })
             ],
           ),
