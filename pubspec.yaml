@@ -14,7 +14,7 @@ description: A TODO app in Flutter
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -27,7 +27,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  provider: ^4.0.4
+  provider: ^4.0.5
 
 
 # For information on the generic Dart part of this file, see the
