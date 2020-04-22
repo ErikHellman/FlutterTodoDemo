@@ -1,44 +1,35 @@
 class TodoItem {
+  int id;
   String title;
   String description;
   DateTime created;
   bool done;
 
-  TodoItem(this.title, this.description, this.done)
-      : this.created = DateTime.now();
+  TodoItem({this.id = 0, this.title, this.description, this.done = false, this.created});
+
+  static TodoItem fromMap(Map<String, dynamic> data) {
+    var id = data['id'] as int;
+    var title = data['title'] as String;
+    var description = data['description'] as String;
+    var created = DateTime.fromMillisecondsSinceEpoch(data['created'] as int);
+    var done = (data['done'] as int) != 0;
+    return TodoItem(
+        id: id,
+        title: title,
+        description: description,
+        created: created,
+        done: done);
+  }
 
   Map<String, dynamic> toMap() {
     return {
-      'title': title,
-      'description': description,
-      'created': created,
-      'done': done
+      'id': id,
+      'title': title ?? '',
+      'description': description ?? '',
+      'created': created.millisecondsSinceEpoch ?? DateTime.now(),
+      'done': done ?? false ? 1 : 0
     };
   }
 
-  @override
-  String toString() {
-    return 'TodoItem{title: $title, description: $description, created: $created, done: $done}';
-  }
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is TodoItem &&
-              runtimeType == other.runtimeType &&
-              title == other.title &&
-              description == other.description &&
-              created == other.created &&
-              done == other.done;
-
-  @override
-  int get hashCode =>
-      title.hashCode ^ description.hashCode ^ created.hashCode ^ done.hashCode;
-
-  int compare(TodoItem other) {
-    var a = this.done ? 1 : 0;
-    var b = other.done ? 1 : 0;
-
-    return a - b;
-  }
 }

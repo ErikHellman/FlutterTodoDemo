@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/todo_home_widget.dart';
-import 'package:todo_app/todo_item_widget.dart';
+import 'package:todo_app/todo_details_widget.dart';
 import 'package:todo_app/todo_model.dart';
 
 void main() => runApp(MyApp());
@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'TODO Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.red,
+          accentColor: Colors.redAccent
         ),
         initialRoute: '/',
         routes: {
