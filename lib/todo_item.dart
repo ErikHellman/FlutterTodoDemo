@@ -24,14 +24,21 @@ class TodoItem {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TodoItem &&
-          runtimeType == other.runtimeType &&
-          title == other.title &&
-          description == other.description &&
-          created == other.created &&
-          done == other.done;
+          other is TodoItem &&
+              runtimeType == other.runtimeType &&
+              title == other.title &&
+              description == other.description &&
+              created == other.created &&
+              done == other.done;
 
   @override
   int get hashCode =>
       title.hashCode ^ description.hashCode ^ created.hashCode ^ done.hashCode;
+
+  int compare(TodoItem other) {
+    var a = this.done ? 1 : 0;
+    var b = other.done ? 1 : 0;
+
+    return a - b;
+  }
 }

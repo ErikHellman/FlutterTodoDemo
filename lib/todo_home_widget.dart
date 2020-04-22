@@ -26,8 +26,10 @@ class _TodoHomeState extends State<TodoHome> {
       body: Center(
         child: Container(
           child: ListView(
-            children:
-                _todoModel.items.map((item) => TodoListItem(item)).toList(),
+            children: _todoModel.items
+                .sortAndReturn((a, b) => a.compare(b))
+                .map((item) => TodoListItem(item))
+                .toList(),
           ),
         ),
       ),
@@ -39,10 +41,8 @@ class _TodoHomeState extends State<TodoHome> {
     );
   }
 
-  void _addItem() {
-    Navigator.pushNamed(context, '/details',
-        arguments: TodoItem(null, null, false));
-  }
+//  Typing something!
+  void _addItem() {}
 }
 
 class TodoListItem extends StatelessWidget {
@@ -52,15 +52,16 @@ class TodoListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.black),
+            borderRadius: BorderRadius.all(Radius.circular(8.0))),
         width: double.infinity,
-        child: GestureDetector(
-          onTap: () {
-            print('Tap on $item');
-            Navigator.pushNamed(context, '/details', arguments: item);
-          },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             children: <Widget>[
               Expanded(
@@ -69,14 +70,12 @@ class TodoListItem extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       item.title,
-                      style: Theme.of(context).textTheme.headline6,
-                      textAlign: TextAlign.start,
+                      style: textTheme.headline6,
                     ),
                     Text(
                       item.description,
-                      style: Theme.of(context).textTheme.bodyText1,
-                      textAlign: TextAlign.start,
-                    ),
+                      style: textTheme.bodyText1,
+                    )
                   ],
                 ),
               ),
@@ -92,5 +91,13 @@ class TodoListItem extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+extension SortExtension<T> on List<T> {
+  List<T> sortAndReturn(int Function(T a, T b) compare) {
+    var sortedList = List<T>.from(this).toList();
+    sortedList.sort(compare);
+    return List.unmodifiable(sortedList);
   }
 }
