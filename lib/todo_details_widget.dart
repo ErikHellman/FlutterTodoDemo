@@ -27,7 +27,7 @@ class _TodoDetailsState extends State<TodoDetails> {
 
   @override
   Widget build(BuildContext context) {
-    bool isNew = widget.todoItem.id == 0;
+    bool isNew = widget.todoItem.id == null;
     final todoModel = Provider.of<TodoModel>(context);
     var deleteButton = !isNew ? FlatButton(
               onPressed: () async {
