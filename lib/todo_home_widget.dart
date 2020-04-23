@@ -23,7 +23,7 @@ class TodoHome extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _addItem(context),
-        tooltip: 'Increment',
+        tooltip: 'Add todo',
         child: Icon(Icons.add),
       ),
     );
