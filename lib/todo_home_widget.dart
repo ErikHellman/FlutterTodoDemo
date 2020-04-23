@@ -14,8 +14,7 @@ class TodoHome extends StatelessWidget {
         title: Text('ToDo Items'),
       ),
       body: ListView(
-        children:
-        todoModel.items.map((item) => TodoListItem(item)).toList(),
+        children: todoModel.items.map((item) => TodoListItem(item)).toList(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _addItem(context),
