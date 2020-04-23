@@ -5,22 +5,10 @@ import 'package:todo_app/todo_item.dart';
 import 'package:todo_app/todo_list_item_widget.dart';
 import 'package:todo_app/todo_model.dart';
 
-class TodoHome extends StatefulWidget {
-  @override
-  _TodoHomeState createState() => _TodoHomeState();
-}
-
-class _TodoHomeState extends State<TodoHome> {
-  TodoModel _todoModel;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _todoModel = Provider.of<TodoModel>(context);
-  }
-
+class TodoHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final todoModel = Provider.of<TodoModel>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('ToDo Items'),
@@ -29,19 +17,19 @@ class _TodoHomeState extends State<TodoHome> {
         child: Container(
           child: ListView(
             children:
-                _todoModel.items.map((item) => TodoListItem(item)).toList(),
+            todoModel.items.map((item) => TodoListItem(item)).toList(),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addItem,
+        onPressed: () => _addItem(context),
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
     );
   }
 
-  void _addItem() {
+  void _addItem(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return TodoDetails(todoItem: TodoItem(created: DateTime.now()));
     }));
