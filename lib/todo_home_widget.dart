@@ -17,16 +17,10 @@ class TodoHome extends StatelessWidget {
         children: todoModel.items.map((item) => TodoListItem(item)).toList(),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _addItem(context),
+        onPressed: () => print('Add new todo item!'),
         tooltip: 'Add todo',
         child: Icon(Icons.add),
       ),
     );
-  }
-
-  void _addItem(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return TodoDetails(todoItem: TodoItem(created: DateTime.now()));
-    }));
   }
 }
