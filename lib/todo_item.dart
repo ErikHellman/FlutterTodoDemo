@@ -6,8 +6,7 @@ class TodoItem {
 
   TodoItem({this.id, this.title, this.description,  this.created});
 
-  static TodoItem fromMap(Map<String, dynamic> data) {
-    var id = data['id'] as int;
+  static TodoItem fromMap(Map<dynamic, dynamic> data, int id) {
     var title = data['title'] as String;
     var description = data['description'] as String;
     var created = DateTime.fromMillisecondsSinceEpoch(data['created'] as int);
@@ -20,7 +19,6 @@ class TodoItem {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'title': title ?? '',
       'description': description ?? '',
       'created': created.millisecondsSinceEpoch ?? DateTime.now(),
