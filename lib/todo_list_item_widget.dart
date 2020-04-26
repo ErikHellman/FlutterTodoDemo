@@ -11,21 +11,10 @@ class TodoListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final todoModel = Provider.of<TodoModel>(context);
     var textTheme = Theme.of(context).textTheme;
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return TodoDetails(todoItem: item);
-          }));
-        },
-        child: Text(
-          item?.title ?? '',
-          style: textTheme.headline6,
-        ),
-      ),
+    return Text(
+      item?.title ?? '',
+      style: textTheme.headline6,
     );
   }
 }

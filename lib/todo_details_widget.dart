@@ -38,27 +38,19 @@ class _TodoDetailsState extends State<TodoDetails> {
         : null;
     return Scaffold(
       appBar: AppBar(title: Text('Item details')),
-      body: Column(
-        children: <Widget>[
-          TextField(
-            controller: _titleController,
-          ),
-          TextField(
-            controller: _descriptionController,
-          ),
-          deleteButton ?? Spacer()
-        ],
-      ),
+      body: Center(child: Text('Nothing here yet!'),),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          widget.todoItem.title = _titleController.text;
-          widget.todoItem.description = _descriptionController.text;
-          todoModel.addOrUpdate(widget.todoItem);
-          Navigator.of(context).pop();
-        },
+        onPressed: () => _saveItem(todoModel),
         child: Icon(Icons.done),
       ),
     );
+  }
+
+  Future<void> _saveItem(TodoModel todoModel) {
+    widget.todoItem.title = _titleController.text;
+    widget.todoItem.description = _descriptionController.text;
+    todoModel.save(widget.todoItem);
+    Navigator.of(context).pop();
   }
 
   @override

@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:todo_app/todo_item.dart';
 
 class TodoModel with ChangeNotifier {
-  static const VERSION = 5;
+  static const VERSION = 6;
   List<TodoItem> _items = [];
 
   List<TodoItem> get items {
@@ -13,31 +13,7 @@ class TodoModel with ChangeNotifier {
 
   Database database;
 
-  Future<void> _openDatabase() async {
-    database = await openDatabase('todo.db', version: VERSION,
-        onCreate: (db, version) async {
-      db.execute(
-          "CREATE TABLE todo (id INTEGER PRIMARY KEY, title TEXT, description TEXT, created INTEGER)");
-    },
-        onUpgrade: (db, oldVersion, newVersion) async {
-          db.execute('DROP TABLE IF EXISTS todo');
-          db.execute(
-              "CREATE TABLE todo (id INTEGER PRIMARY KEY, title TEXT, description TEXT, created INTEGER)");
-        },
-        onOpen: (db) async {
-      final resultSet = await db.query('todo', orderBy: 'created');
-      _items = resultSet.map((row) => TodoItem.fromMap(row)).toList();
-      notifyListeners();
-    });
-  }
-
-  Future<void> _loadItems() async {
-    final resultSet = await database.query('todo', orderBy: 'created');
-    _items = resultSet.map((row) => TodoItem.fromMap(row)).toList();
-    notifyListeners();
-  }
-
-  Future<void> addOrUpdate(TodoItem item) async {
+  Future<void> save(TodoItem item) async {
     print('addOrUpdate: $item');
     if (database == null) await _openDatabase();
     await database.insert('todo', item.toMap(),
@@ -51,9 +27,79 @@ class TodoModel with ChangeNotifier {
     await _loadItems();
   }
 
+  Future<void> _loadItems() async {
+    final resultSet = await database.query('todo', orderBy: 'created');
+    _items = resultSet.map((row) => TodoItem.fromMap(row)).toList();
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     super.dispose();
     database.close();
+  }
+
+  Future<void> _openDatabase() async {
+    database = await openDatabase('todo.db', version: VERSION,
+        onCreate: (db, version) async {
+      db.execute(
+          "CREATE TABLE todo (id INTEGER PRIMARY KEY, title TEXT, description TEXT, created INTEGER)");
+      db.insert(
+          'todo',
+          TodoItem(
+                  title: 'Plan Flutter presentation!',
+                  description: 'Make it fun!',
+                  created: DateTime.now())
+              .toMap());
+      ;
+      db.insert(
+          'todo',
+          TodoItem(
+                  title: 'Feed the cats',
+                  description: 'They will interrupt you presentation otherwise',
+                  created: DateTime.now())
+              .toMap());
+      ;
+      db.insert(
+          'todo',
+          TodoItem(
+                  title: 'Learn COBOL',
+                  description: 'It is the future!',
+                  created: DateTime.now())
+              .toMap());
+      ;
+    }, onUpgrade: (db, oldVersion, newVersion) async {
+      db.execute('DROP TABLE IF EXISTS todo');
+      db.execute(
+          "CREATE TABLE todo (id INTEGER PRIMARY KEY, title TEXT, description TEXT, created INTEGER)");
+      db.insert(
+          'todo',
+          TodoItem(
+                  title: 'Plan Flutter presentation!',
+                  description: 'Make it fun!',
+                  created: DateTime.now())
+              .toMap());
+      ;
+      db.insert(
+          'todo',
+          TodoItem(
+                  title: 'Feed the cats',
+                  description: 'They will interrupt you presentation otherwise',
+                  created: DateTime.now())
+              .toMap());
+      ;
+      db.insert(
+          'todo',
+          TodoItem(
+                  title: 'Learn COBOL',
+                  description: 'It is the future!',
+                  created: DateTime.now())
+              .toMap());
+      ;
+    }, onOpen: (db) async {
+      final resultSet = await db.query('todo', orderBy: 'created');
+      _items = resultSet.map((row) => TodoItem.fromMap(row)).toList();
+      notifyListeners();
+    });
   }
 }
