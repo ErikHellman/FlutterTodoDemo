@@ -12,9 +12,26 @@ class TodoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
-    return Text(
-      item?.title ?? '',
-      style: textTheme.headline6,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+      child: Card(
+        child: InkWell(
+          onTap: () => _openDetails(context),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              item?.title ?? '',
+              style: textTheme.headline6,
+            ),
+          ),
+        ),
+      ),
     );
+  }
+
+  Future _openDetails(BuildContext context) {
+    return Navigator.push(context, MaterialPageRoute(
+        builder: (context) => TodoDetails(item)
+      ));
   }
 }

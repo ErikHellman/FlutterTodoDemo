@@ -27,9 +27,64 @@ class _TodoDetailsState extends State<TodoDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final deleteCallback = widget.todoItem.id != null
+        ? () => _deleteItem(widget.todoItem)
+        : null;
     return Scaffold(
       appBar: AppBar(title: Text('Item details')),
-      body: Center(child: Text('Nothing here yet!'),),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: TextField(
+              controller: _titleController,
+              decoration: InputDecoration(
+                labelText: 'Title',
+                alignLabelWithHint: true,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(),
+                  borderRadius: BorderRadius.circular(4)
+                )
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: TextField(
+              controller: _descriptionController,
+              decoration: InputDecoration(
+                  labelText: 'Description',
+                  alignLabelWithHint: true,
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(),
+                      borderRadius: BorderRadius.circular(4)
+                  )
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 8, 4, 0),
+                child: RaisedButton.icon(
+                    onPressed: () {
+                      _saveItem(widget.todoItem);
+                    },
+                    icon: Icon(Icons.save),
+                    label: Text('Save')),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(4, 8, 16, 0),
+                child: RaisedButton.icon(
+                    onPressed: deleteCallback,
+                    icon: Icon(Icons.delete),
+                    label: Text('Delete')),
+              )
+            ],
+          ),
+        ],
+      ),
     );
   }
 
